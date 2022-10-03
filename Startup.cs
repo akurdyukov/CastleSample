@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Castle.Windsor;
+using FluentMigrator.Runner;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -10,7 +11,9 @@ using NHibernate.Cfg;
 using NHibernate.Driver;
 using NHibernate.Mapping.Attributes;
 using NHibernate.NetCore;
+using Steeltoe.Connector;
 using Steeltoe.Connector.PostgreSql;
+using Steeltoe.Connector.Services;
 using Steeltoe.Management.Endpoint;
 using Environment = NHibernate.Cfg.Environment;
 
@@ -39,7 +42,18 @@ namespace CastleSample
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "CastleSample", Version = "v1"});
             });
 
+            // datatabase stuff
             services.AddHibernate(BuildHibernateConfig());
+            var postgresConfig = new PostgresProviderConnectorOptions(Configuration);
+            var connString = postgresConfig.ToString();
+            services.AddFluentMigratorCore()
+                .ConfigureRunner(b =>
+                {
+                    b.AddPostgres()
+                        .ScanIn(typeof(Startup).Assembly).For.Migrations()
+                        .WithGlobalConnectionString(connString);
+                })
+                .AddLogging(c => c.AddFluentMigratorConsole());
         }
 
         // ReSharper disable once UnusedMember.Global
@@ -64,6 +78,8 @@ namespace CastleSample
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+
+            app.Migrate();
         }
         
         private static Configuration BuildHibernateConfig()
@@ -87,6 +103,18 @@ namespace CastleSample
                 .SetProperties(configProperties)
                 .AddInputStream(serializer.Serialize(typeof(LocalInstaller).Assembly));
             return config;
+        }
+    }
+
+    public static class MigrationExtension
+    {
+        public static IApplicationBuilder Migrate(this IApplicationBuilder app)
+        {
+            using var scope = app.ApplicationServices.CreateScope();
+            var runner = scope.ServiceProvider.GetService<IMigrationRunner>();
+            runner.ListMigrations();
+            runner.MigrateUp();
+            return app;
         }
     }
 }

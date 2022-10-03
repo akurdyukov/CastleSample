@@ -12,6 +12,9 @@
 
   <ItemGroup>
     <PackageReference Include="Castle.Windsor.Extensions.DependencyInjection" Version="5.1.2" />
+    <PackageReference Include="FluentMigrator" Version="3.3.2" />
+    <PackageReference Include="FluentMigrator.Runner" Version="3.3.2" />
+    <PackageReference Include="FluentMigrator.Runner.Postgres" Version="3.3.2" />
     <PackageReference Include="NHibernate" Version="5.3.13" />
     <PackageReference Include="NHibernate.Mapping.Attributes" Version="5.1.0" />
     <PackageReference Include="NHibernate.NetCore" Version="6.0.11" />

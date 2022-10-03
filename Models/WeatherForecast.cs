@@ -1,15 +1,23 @@
 using System;
+using NHibernate.Mapping.Attributes;
 
 namespace CastleSample.Models
 {
+    [Class(Table = "weather_forecast")]
     public class WeatherForecast
     {
-        public DateTime Date { get; set; }
+        [Id(Name = "Id", Column = "id", Generator = "trigger-identity")]
+        public virtual long Id { get; set; }
+        
+        [Property(Column = "weather_date", Type = "datetime")]
+        public virtual DateTime Date { get; set; }
 
-        public int TemperatureC { get; set; }
+        [Property(Column = "temperature_c")]
+        public virtual int TemperatureC { get; set; }
 
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+        public virtual int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 
-        public string Summary { get; set; }
+        [Property(Column = "summary", Type = "string")]
+        public virtual string Summary { get; set; }
     }
 }

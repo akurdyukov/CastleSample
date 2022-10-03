@@ -11,9 +11,7 @@ using NHibernate.Cfg;
 using NHibernate.Driver;
 using NHibernate.Mapping.Attributes;
 using NHibernate.NetCore;
-using Steeltoe.Connector;
 using Steeltoe.Connector.PostgreSql;
-using Steeltoe.Connector.Services;
 using Steeltoe.Management.Endpoint;
 using Environment = NHibernate.Cfg.Environment;
 

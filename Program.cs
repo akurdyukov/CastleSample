@@ -2,10 +2,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using NLog.Extensions.Logging;
 using NLog.Web;
 using Steeltoe.Extensions.Configuration.ConfigServer;
-using Steeltoe.Extensions.Logging;
 
 namespace CastleSample
 {

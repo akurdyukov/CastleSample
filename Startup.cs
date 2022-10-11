@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Castle.Windsor;
+using CastleSample.Services;
 using FluentMigrator.Runner;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -52,6 +53,9 @@ namespace CastleSample
                         .WithGlobalConnectionString(connString);
                 })
                 .AddLogging(c => c.AddFluentMigratorConsole());
+            
+            // configuration stuff
+            services.Configure<RandomWeatherOptions>(Configuration.GetSection(nameof(RandomWeatherOptions)));
         }
 
         // ReSharper disable once UnusedMember.Global

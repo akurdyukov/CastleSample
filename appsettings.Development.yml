@@ -12,3 +12,6 @@ Postgres:
     Username: "arche"
     Password: "arche"
     Database: "castlesample"
+RandomWeatherOptions:
+  MinTemperature: -20
+  MaxTemperature: 55

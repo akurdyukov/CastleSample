@@ -10,3 +10,4 @@ obj/
 
 # JetBrains Rider
 /.idea/
+*.log

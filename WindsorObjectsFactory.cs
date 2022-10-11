@@ -10,7 +10,7 @@ public class WindsorObjectsFactory : IObjectsFactory
 
     public WindsorObjectsFactory(IWindsorContainer container)
     {
-        this._container = container;
+        _container = container;
     }
 
     public object CreateInstance(Type type)
